@@ -1,1 +1,1 @@
-web: sh setup.sh && streamlit run word-cloud-generator-697.py
+web: sh setup.sh && streamlit run word_cloud_heroku.py
