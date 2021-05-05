@@ -1,1 +1,1 @@
-web: sh setup.sh && streamlit run <your_app_name>.py
+web: sh setup.sh && streamlit run word-cloud-generator-697.py
