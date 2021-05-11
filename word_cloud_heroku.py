@@ -1,6 +1,7 @@
 import streamlit as st
 import numpy as np
 from wordcloud import WordCloud
+import matplotlib.pyplot as plt
 from main import keyword_extraction_text_rank
 
 st.title("Welcome to WordCloud!")
@@ -13,4 +14,7 @@ if st.button('generate word cloud'):
     else:
         extracted_key_words, frequency_dict = keyword_extraction_text_rank(user_input)
         word_cloud = WordCloud(width = 800, height = 800, background_color ='white', min_font_size = 10).generate_from_frequencies(frequency_dict)
-        st.image(word_cloud)
+        plt.figure(figsize = (8, 8), facecolor = None)
+        plt.imshow(word_cloud)
+        plt.axis("off")
+        plt.show()
