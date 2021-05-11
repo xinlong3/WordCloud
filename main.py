@@ -1,12 +1,13 @@
-# import nltk
-# nltk.download('averaged_perceptron_tagger')
-
 from nltk.tokenize import word_tokenize
 from nltk.tokenize import sent_tokenize
 from collections import defaultdict
 import math
+import nltk
 from nltk import pos_tag
 import helpers
+
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
 
 def keyword_extraction_text_rank(file_str, d=0.85, window_size=3, threshold=0.0001, T=10, custom_T=False):
     # extract sentences and tag and lower-case each word
