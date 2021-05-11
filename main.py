@@ -65,25 +65,32 @@ def keyword_extraction_text_rank(file_str, d=0.85, window_size=3, threshold=0.00
 
     # post-processing
     key_words_to_return = set()
+    frequency_dict = defaultdict(int)
     for x in range(len(list_of_kw_index_all_sen)):
         i = 0
         while i < len(list_of_kw_index_all_sen[x]):
             curr_mutiple = [file_tokenized_tagged[x][list_of_kw_index_all_sen[x][i]][0]]
             if i == len(list_of_kw_index_all_sen[x]) - 1:
                 key_words_to_return.add(curr_mutiple[0])
+                #print("curr_multiple here: ", curr_mutiple)
+                #print("freq_dict here: ", frequency_dict)
+                frequency_dict[curr_mutiple[0]] += 1
                 break
             while list_of_kw_index_all_sen[x][i] == list_of_kw_index_all_sen[x][i + 1] - 1:
                 i = i + 1
                 curr_mutiple = curr_mutiple + [file_tokenized_tagged[x][list_of_kw_index_all_sen[x][i]][0]]
                 if i + 1 == len(list_of_kw_index_all_sen[x]):
                     break
-            key_words_to_return.add(' '.join(curr_mutiple))
+            curr_mutiple_joined = ' '.join(curr_mutiple)
+            key_words_to_return.add(curr_mutiple_joined)
+            frequency_dict[curr_mutiple_joined] += 1
             i = i + 1
-    return key_words_to_return
+    return key_words_to_return, frequency_dict
 
 if __name__ == '__main__':
     file1 = open('text.txt')
     file_str = file1.read().replace('\n', '')
     file1.close()
-    keywords = keyword_extraction_text_rank(file_str)
+    keywords, frequency_dict = keyword_extraction_text_rank(file_str)
     print("key words extracted from the text: ", keywords)
+    print("obtained frequency dict: ", frequency_dict)
