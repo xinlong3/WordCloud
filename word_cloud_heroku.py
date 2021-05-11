@@ -1,6 +1,5 @@
 import streamlit as st
 import numpy as np
-import pandas as pd
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 from main import keyword_extraction_text_rank
