@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from main import keyword_extraction_text_rank
 
 st.title("Welcome to WordCloud!")
-st.text("Put your text here and generate your word cloud!")
+st.text("Put your text here and generate your word cloud! (Note: You may want to put two or more sentences or more than 20 words to generate the simplest word cloud.)")
 user_input = st.text_area("text goes here")
 
 if st.button('generate word cloud'):
@@ -14,7 +14,7 @@ if st.button('generate word cloud'):
     else:
         extracted_key_words, frequency_dict = keyword_extraction_text_rank(user_input)
         word_cloud = WordCloud(width = 800, height = 800, background_color ='white', min_font_size = 10).generate_from_frequencies(frequency_dict)
-        plt.figure(figsize = (8, 8), facecolor = None)
-        plt.imshow(word_cloud)
-        plt.axis("off")
-        plt.show()
+        fig, ax = plt.subplots()
+        ax.imshow(word_cloud)
+        ax.axis('off')
+        st.pyplot(fig)

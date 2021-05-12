@@ -20,7 +20,7 @@ def keyword_extraction_text_rank(file_str, d=0.85, window_size=3, threshold=0.00
             tagged_sentence[i] = (tagged_sentence[i][0].lower(), tagged_sentence[i][1])
         file_tokenized_tagged.append(tagged_sentence)
 
-    # dictionary that records the coocurrence of words, also regarded as the representation of the graph
+    # dictionary that records the coocurrence of words and is regarded as the representation of the graph
     coocc_dict = defaultdict(set)
     for sen_ls in file_tokenized_tagged:
         for i in range(len(sen_ls)):
