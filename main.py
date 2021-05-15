@@ -10,7 +10,7 @@ nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
 
 def keyword_extraction_text_rank(file_str, d=0.85, window_size=3, threshold=0.0001, T=10, custom_T=False):
-    # extract sentences and tag and lower-case each word
+    # lower case each word and tokenize and tag each word
     file_str = file_str.lower()
     filter_tags = set(['JJ','NN', 'NNS', 'NNP', 'NNPS'])
     file_tokenized_tagged = pos_tag(word_tokenize(file_str))
@@ -72,7 +72,7 @@ def keyword_extraction_text_rank(file_str, d=0.85, window_size=3, threshold=0.00
     # sort the recorded indices
     list_of_kw_index = sorted(list_of_kw_index)
 
-    # post-processing; score each word/phrase and use T as a upper bound to return keywords
+    # post-processing; score each word/phrase
     single_word_set = set()  # The set of single word to avoid standing alone by themselves
     key_words_to_return = set()
     map_keyword_to_score = {}
