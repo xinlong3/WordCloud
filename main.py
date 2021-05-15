@@ -14,14 +14,14 @@ def keyword_extraction_text_rank(file_str, d=0.85, window_size=3, threshold=0.00
     file_str = file_str.lower()
     filter_tags = set(['JJ','NN', 'NNS', 'NNP', 'NNPS'])
     file_tokenized_tagged = pos_tag(word_tokenize(file_str))
-    print("file_tokenized_tagged here: ", file_tokenized_tagged)
+    #print("file_tokenized_tagged here: ", file_tokenized_tagged)
 
     # filter the sentences so that only words with desired labels are in the sentences
     file_tokenized_tagged_filtered = []
     for word_tag_pair in file_tokenized_tagged:
         if word_tag_pair[1] in filter_tags:
             file_tokenized_tagged_filtered.append(word_tag_pair)
-    print("filtered file_tokenized_tagged here: ", file_tokenized_tagged_filtered)
+    #print("filtered file_tokenized_tagged here: ", file_tokenized_tagged_filtered)
 
 
 
@@ -38,8 +38,8 @@ def keyword_extraction_text_rank(file_str, d=0.85, window_size=3, threshold=0.00
 
 
 
-    print("coocc_dict here: ", coocc_dict)
-    print("coocc_dict['numbers'] here: ", coocc_dict['numbers'])
+    # print("coocc_dict here: ", coocc_dict)
+    # print("coocc_dict['numbers'] here: ", coocc_dict['numbers'])
 
 
     # calculate scores iteratively until convergence
@@ -54,16 +54,16 @@ def keyword_extraction_text_rank(file_str, d=0.85, window_size=3, threshold=0.00
             score_prev_iter = score_this_iter.copy()
             score_this_iter[vi] = (1 - d) + d * sum([score_prev_iter[vj] / len(coocc_dict[vj]) for vj in neighbors])
     sorted_vertices = sorted(score_this_iter, key=score_this_iter.get, reverse=True)
-    print("score_this_iter here: ", score_this_iter)
-    print("sorted_vertices here: ", sorted_vertices)
-    print("size of sorted_vertices: ", len(sorted_vertices))
-    for v in sorted_vertices:
-        print(v, score_this_iter[v])
-        print(v, score_prev_iter[v])
-        print("iter difference: ", score_this_iter[v] - score_prev_iter[v])
+    # print("score_this_iter here: ", score_this_iter)
+    # print("sorted_vertices here: ", sorted_vertices)
+    # print("size of sorted_vertices: ", len(sorted_vertices))
+    # for v in sorted_vertices:
+    #     print(v, score_this_iter[v])
+    #     print(v, score_prev_iter[v])
+    #     print("iter difference: ", score_this_iter[v] - score_prev_iter[v])
 
     # record the index of the keywords
-    print("sanity check of ftt: ", file_tokenized_tagged)
+    #print("sanity check of ftt: ", file_tokenized_tagged)
     list_of_kw_index = []
     for i, word in enumerate(file_tokenized_tagged):
         if word[0] in sorted_vertices:
@@ -101,22 +101,24 @@ def keyword_extraction_text_rank(file_str, d=0.85, window_size=3, threshold=0.00
         i = i + 1
 
     sorted_keyword_to_return = sorted(map_keyword_to_score, key=map_keyword_to_score.get, reverse=True)
-    for kw in sorted_keyword_to_return:
-        print(kw, ": ", map_keyword_to_score[kw])
+    # for kw in sorted_keyword_to_return:
+    #     print(kw, ": ", map_keyword_to_score[kw])
 
     # return the top T keywords
     if not custom_T:
         T = math.ceil(len(sorted_vertices) / 3)
     
+    score_dict = {}
     i = 0
     for w in sorted_keyword_to_return:
         if w not in single_word_set:
             key_words_to_return.add(w)
+            score_dict[w] = map_keyword_to_score[w]
             i += 1
         if i == T:
             break
 
-    return key_words_to_return, frequency_dict
+    return key_words_to_return, score_dict
 
 if __name__ == '__main__':
     file1 = open('text.txt')
