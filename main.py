@@ -113,12 +113,13 @@ def keyword_extraction_text_rank(file_str, d=0.85, window_size=3, threshold=0.00
     for w in sorted_keyword_to_return:
         if w not in single_word_set:
             key_words_to_return.add(w)
-            score_dict[w] = map_keyword_to_score[w]
+            score_dict[w] = (map_keyword_to_score[w])**2  # non-linearity to create better contrasts between words
             i += 1
         if i == T:
             break
 
     return key_words_to_return, score_dict
+
 
 if __name__ == '__main__':
     file1 = open('text.txt')
